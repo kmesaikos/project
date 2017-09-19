@@ -1,0 +1,7 @@
+<div>
+    <h1>{{appTitle}}</h1>
+    <ul>
+        <li *ngFor="let act of actions" (click)="navigateTo()">{{act}}</li>
+    </ul>
+    <router-outlet></router-outlet>
+</div>
