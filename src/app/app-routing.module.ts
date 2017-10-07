@@ -1,3 +1,4 @@
+import { RegisteredPatients } from './patients/registered-patients';
 import { RegisterPatientComponent } from './register-patient/register-patient.component';
 import { NgModule } from '@angular/core'; 
 import { BrowserModule } from '@angular/platform-browser'; 
@@ -7,6 +8,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 const appRoutes: Routes = [
     { path: 'register', component: RegisterPatientComponent },
+    { path: 'patients', component: RegisteredPatients },
     { path: 'home', component: AppComponent },
   ];
 

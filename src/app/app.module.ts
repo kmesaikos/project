@@ -1,3 +1,5 @@
+import { RegisteredPatients } from './patients/registered-patients';
+import { AlertService } from './services/alert.service';
 import { HttpModule } from '@angular/http';
 import { UserService } from './services/user.service';
 import { AppRoutingModule } from './app-routing.module';
@@ -17,11 +19,15 @@ import { FormsModule, ReactiveFormsModule  }   from '@angular/forms';
     HttpModule
                               
   ],
-  providers: [UserService],
+  providers: [
+    UserService,
+    AlertService
+  ],
 
   declarations: [
     AppComponent,
-    RegisterPatientComponent
+    RegisterPatientComponent,
+    RegisteredPatients
   ],
   bootstrap: [
     AppComponent
