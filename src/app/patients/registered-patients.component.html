@@ -1,8 +1,26 @@
-<div class="col-md-6 col-md-offset-3">
-    <h3>All registered patients </h3>
-    <ul>
-        <li *ngFor="let patient of patients">
-            {{patient.firstName}} {{patient.lastName}}{{patient.condition}}
-        </li>
-    </ul>
-</div>    
+<h1>All registered patients </h1>
+<table>
+    <thead>
+        <tr>
+            <th style="width: 15%">
+                FirstName
+            </th>
+            <th style="width: 15%">
+                LastName
+            </th>
+            <th style="width: 15%">
+                Condition
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let patient of patients">
+            <td>{{patient.firstName}}</td>
+            <td>{{patient.lastName}}</td>
+            <td>{{patient.condition}}</td>
+        </tr>
+    </tbody>
+    <tfoot>
+
+    </tfoot>
+</table>

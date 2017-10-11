@@ -5,6 +5,7 @@ import { Component, Injectable } from '@angular/core';
 
 @Component({
     selector: "registered-patients.component",
+    styleUrls: ['./registered-patients.scss'],
     templateUrl: "./registered-patients.component.html"
 })
 

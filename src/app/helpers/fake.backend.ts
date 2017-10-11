@@ -11,7 +11,7 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
         setTimeout(() => {
 
                // create patient
-               if (connection.request.url.endsWith('patients') && connection.request.method === RequestMethod.Post) {
+               if (connection.request.url.endsWith('/api/patients') && connection.request.method === RequestMethod.Post) {
                 // get new user object from post body
                 let newPatient = JSON.parse(connection.request.getBody());
 
@@ -33,45 +33,42 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
             }
 
             // get users
-            if (connection.request.url.endsWith('patients') && connection.request.method === RequestMethod.Get) {
+            if (connection.request.url.endsWith('/api/patients') && connection.request.method === RequestMethod.Get) {
                 // check for fake auth token in header and return users if valid, this security is implemented server side in a real application
                     connection.mockRespond(new Response(new ResponseOptions({ status: 200, body: patients })));
-                } else {
-                    // return 401 not authorised if token is null or invalid
-                    connection.mockRespond(new Response(new ResponseOptions({ status: 401 })));
-                }
-
+              
                 return;
             }
-        }}
 
-            // pass through any requests not handled above
-//             let realHttp = new Http(realBackend, options);
-//             let requestOptions = new RequestOptions({
-//                 method: connection.request.method,
-//                 headers: connection.request.headers,
-//                 body: connection.request.getBody(),
-//                 url: connection.request.url,
-//                 withCredentials: connection.request.withCredentials,
-//                 responseType: connection.request.responseType
-//             });
-//             realHttp.request(connection.request.url, requestOptions)
-//                 .subscribe((response: Response) => {
-//                     connection.mockRespond(response);
-//                 },
-//                 (error: any) => {
-//                     connection.mockError(error);
-//                 });
 
-//         }, 500);
+            //pass through any requests not handled above
+            let realHttp = new Http(realBackend, options);
+            let requestOptions = new RequestOptions({
+                method: connection.request.method,
+                headers: connection.request.headers,
+                body: connection.request.getBody(),
+                url: connection.request.url,
+                withCredentials: connection.request.withCredentials,
+                responseType: connection.request.responseType
+            });
+            realHttp.request(connection.request.url, requestOptions)
+                .subscribe((response: Response) => {
+                    connection.mockRespond(response);
+                },
+                (error: any) => {
+                    connection.mockError(error);
+                });
 
-//     });
+        }, 500);
 
-//     return new Http(backend, options);
-// };
+    });
 
-// export let fakeBackendProvider = {
-//     // use fake backend in place of Http service for backend-less development
-//     provide: Http,
-//     useFactory: fakeBackendFactory,
-//     deps: [MockBackend, BaseRequestOptions, XHRBackend]
+    return new Http(backend, options);
+};
+
+export let fakeBackendProvider = {
+    // use fake backend in place of Http service for backend-less development
+    provide: Http,
+    useFactory: fakeBackendFactory,
+    deps: [MockBackend, BaseRequestOptions, XHRBackend]
+};

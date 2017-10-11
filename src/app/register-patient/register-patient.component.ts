@@ -42,7 +42,7 @@ export class RegisterPatientComponent {
     this.userService.create(this.patient)
       .subscribe(
       data => {
-        this.alertService.success('registration Successful', true);
+        this.alertService.success('Registration Successful', true);
         this.router.navigate(['/patients']);
       },
       error => {
