@@ -15,9 +15,10 @@
     </thead>
     <tbody>
         <tr *ngFor="let patient of patients">
-            <td>{{patient.firstName}}</td>
+            <td>{{patient.id}}, {{patient.firstName}}</td>
             <td>{{patient.lastName}}</td>
-            <td>{{patient.condition}}</td>
+            <td>{{patient.condition}}</td> - 
+            <a (click) = "deletePatient(patient.id)">Delete </a>
         </tr>
     </tbody>
     <tfoot>

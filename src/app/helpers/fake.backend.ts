@@ -40,6 +40,21 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
                 return;
             }
 
+            if (connection.request.url.endsWith('/\/api\/patients\/\d+$/') && connection.request.method === RequestMethod.Get){
+                let urlParts = connection.request.url.split('/');
+                let id = parseInt(urlParts[urlParts.length -1]);
+                for(let i=0; i<patients.length; i++){
+                    let patient = patients[i];
+                    if(patient.id === id){
+                        patients.splice(i,1);
+                        localStorage.setItem('patients', JSON.stringify(patients));
+                        break;
+                    }
+                }
+
+                connection.mockRespond(new Response(new ResponseOptions({status: 200})));
+            }
+
 
             //pass through any requests not handled above
             let realHttp = new Http(realBackend, options);

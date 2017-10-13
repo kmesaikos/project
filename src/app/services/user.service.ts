@@ -15,6 +15,10 @@ getAll(){
     return this.http.get('/api/patients').map((response: Response) => response.json());
 }
 
+delete(id: number){
+    return this.http.delete('/api/patients/' + id).map((response: Response) => response.json());
+}
+
 // private jwt() {
 //     // create authorization header with jwt token
 //     let currentUser = JSON.parse(localStorage.getItem('currentUser'));

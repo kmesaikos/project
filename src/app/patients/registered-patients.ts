@@ -22,6 +22,11 @@ export class RegisteredPatients{
         this.loadAllPatients();
     }
 
+    deletePatient(id: number) {
+        this.userService.delete(id).subscribe(() => {this.loadAllPatients()});
+
+    }
+
     private loadAllPatients() {
         this.userService.getAll().subscribe(patients => { this.patients = patients;});
     }
