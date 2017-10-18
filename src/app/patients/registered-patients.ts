@@ -1,4 +1,4 @@
-import { UserService } from './../services/user.service';
+import { PatientService } from './../services/patient.service';
 import { Patient } from './../../models/patient.model';
 import { Component, Injectable } from '@angular/core';
 
@@ -15,7 +15,7 @@ export class RegisteredPatients{
     currentPatient: Patient;
     patients: Patient[] = [];
 
-    constructor(private userService: UserService) 
+    constructor(private patientService: PatientService) 
     { }
 
     ngOnInit() {
@@ -23,12 +23,12 @@ export class RegisteredPatients{
     }
 
     deletePatient(id: number) {
-        this.userService.delete(id).subscribe(() => {this.loadAllPatients()});
+        this.patientService.delete(id).subscribe(() => {this.loadAllPatients()});
 
     }
 
     private loadAllPatients() {
-        this.userService.getAll().subscribe(patients => { this.patients = patients;});
+        this.patientService.getAll().subscribe(patients => { this.patients = patients;});
     }
 }
 

@@ -1,3 +1,4 @@
+import { ConsultationPageComponent } from './consultation/consultation-page.component';
 import { RegisteredPatients } from './patients/registered-patients';
 import { RegisterPatientComponent } from './register-patient/register-patient.component';
 import { NgModule } from '@angular/core'; 
@@ -10,6 +11,7 @@ const appRoutes: Routes = [
     { path: 'register', component: RegisterPatientComponent },
     { path: 'patients', component: RegisteredPatients },
     { path: 'home', component: AppComponent },
+    { path: 'consultations',component: ConsultationPageComponent}
   ];
 
 

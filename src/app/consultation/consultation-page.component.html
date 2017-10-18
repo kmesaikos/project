@@ -1,0 +1,16 @@
+<h2>Consultations</h2>
+
+<div class="date-picker">
+    <label for="select-date">Choose an available date</label>
+    <div>
+        <select id="select-date" 
+                name="select-date" 
+                required 
+                [(ngModel)]="selectedDate">
+            <option *ngFor="let date of dates" 
+                    [value]="date">
+                {{date}}
+            </option>
+        </select>
+    </div>
+</div>

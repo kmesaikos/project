@@ -1,9 +1,10 @@
+import { ConsultationPageComponent } from './consultation/consultation-page.component';
 import { fakeBackendProvider } from './helpers/fake.backend';
 import { MockBackend } from '@angular/http/testing';
 import { RegisteredPatients } from './patients/registered-patients';
 import { AlertService } from './services/alert.service';
 import { HttpModule, BaseRequestOptions } from '@angular/http';
-import { UserService } from './services/user.service';
+import { PatientService } from './services/patient.service';
 import { AppRoutingModule } from './app-routing.module';
 import { RegisterPatientComponent } from './register-patient/register-patient.component';
 import { NgModule } from '@angular/core';
@@ -22,7 +23,7 @@ import { FormsModule, ReactiveFormsModule  }   from '@angular/forms';
                               
   ],
   providers: [
-    UserService,
+    PatientService,
     AlertService,
     fakeBackendProvider,
     MockBackend,
@@ -32,7 +33,8 @@ import { FormsModule, ReactiveFormsModule  }   from '@angular/forms';
   declarations: [
     AppComponent,
     RegisterPatientComponent,
-    RegisteredPatients
+    RegisteredPatients,
+    ConsultationPageComponent
   ],
   bootstrap: [
     AppComponent

@@ -39,8 +39,7 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
               
                 return;
             }
-
-            if (connection.request.url.endsWith('/\/api\/patients\/\d+$/') && connection.request.method === RequestMethod.Get){
+            if (connection.request.url.match(/\/api\/patients\/\d+$/) && connection.request.method === RequestMethod.Delete){
                 let urlParts = connection.request.url.split('/');
                 let id = parseInt(urlParts[urlParts.length -1]);
                 for(let i=0; i<patients.length; i++){
@@ -56,23 +55,23 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
             }
 
 
-            //pass through any requests not handled above
-            let realHttp = new Http(realBackend, options);
-            let requestOptions = new RequestOptions({
-                method: connection.request.method,
-                headers: connection.request.headers,
-                body: connection.request.getBody(),
-                url: connection.request.url,
-                withCredentials: connection.request.withCredentials,
-                responseType: connection.request.responseType
-            });
-            realHttp.request(connection.request.url, requestOptions)
-                .subscribe((response: Response) => {
-                    connection.mockRespond(response);
-                },
-                (error: any) => {
-                    connection.mockError(error);
-                });
+            // //pass through any requests not handled above
+            // let realHttp = new Http(realBackend, options);
+            // let requestOptions = new RequestOptions({
+            //     method: connection.request.method,
+            //     headers: connection.request.headers,
+            //     body: connection.request.getBody(),
+            //     url: connection.request.url,
+            //     withCredentials: connection.request.withCredentials,
+            //     responseType: connection.request.responseType
+            // });
+            // realHttp.request(connection.request.url, requestOptions)
+            //     .subscribe((response: Response) => {
+            //         connection.mockRespond(response);
+            //     },
+            //     (error: any) => {
+            //         connection.mockError(error);
+            //     });
 
         }, 500);
 

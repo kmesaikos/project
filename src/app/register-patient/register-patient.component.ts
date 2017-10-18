@@ -1,7 +1,7 @@
 import { AlertService } from './../services/alert.service';
 import { Condition } from './../../models/condition';
 import { Router } from '@angular/router';
-import { UserService } from './../services/user.service';
+import { PatientService } from './../services/patient.service';
 import { Patient } from './../../models/patient.model';
 import { Component, Injectable } from '@angular/core';
 import { NgModule } from '@angular/core';
@@ -32,17 +32,17 @@ export class RegisterPatientComponent {
     }
   ];
   constructor(
-    private userService: UserService,
+    private patientService: PatientService,
     private router: Router,
     private alertService: AlertService
   ) { }
 
   register() {
     this.loading = true;
-    this.userService.create(this.patient)
+    this.patientService.create(this.patient)
       .subscribe(
       data => {
-        this.alertService.success('Registration Successful', true);
+        this.alertService.success('Registration Successful!!', true);
         this.router.navigate(['/patients']);
       },
       error => {
