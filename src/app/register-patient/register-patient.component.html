@@ -1,4 +1,4 @@
-<form (ngSubmit)="register()" #registrationForm="ngForm">
+<form (ngSubmit)="registerPatient()" #registrationForm="ngForm">
     <div>
         <label for="firstname">First Name</label>
         <input type="text" id="firstname" name="firstname" placeholder="Jane" required [(ngModel)]="patient.firstName">
@@ -8,6 +8,10 @@
         <input type="text" id="lastname" name="lastname" placeholder="Doe" required [(ngModel)]="patient.lastName">
     </div>
 
+    <div>
+        <label for="lastname">Last Name</label>
+        <input type="text" id="lastname" name="lastname" placeholder="Doe" required [(ngModel)]="consultation.id">
+    </div>
 
     <div class="condition">
         <label for="condition">Condition</label>

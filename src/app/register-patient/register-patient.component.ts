@@ -1,11 +1,11 @@
 import { AlertService } from './../services/alert.service';
-import { Condition } from './../../models/condition';
 import { Router } from '@angular/router';
 import { PatientService } from './../services/patient.service';
-import { Patient } from './../../models/patient.model';
-import { Component, Injectable } from '@angular/core';
-import { NgModule } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
+import { NgModule, Output, EventEmitter } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Condition } from "../models/condition";
+import { Patient } from "../models/patient.model";
 
 @Component({
   selector: 'register-patient',
@@ -15,7 +15,9 @@ import { NgForm } from '@angular/forms';
 @Injectable()
 export class RegisterPatientComponent {
   patient: any = {};
+  consultation: any = {};
   loading = false;
+  @Output() submitPatient = new EventEmitter<Patient>();
 
   conditions: Array<Condition> = [
     {
@@ -37,8 +39,14 @@ export class RegisterPatientComponent {
     private alertService: AlertService
   ) { }
 
-  register() {
+  ngOninit() {
+    this.createConsultation();
+  }
+  
+  registerPatient() {
     this.loading = true;
+    this.submitPatient.emit(this.patient);
+
     this.patientService.create(this.patient)
       .subscribe(
       data => {
@@ -51,4 +59,15 @@ export class RegisterPatientComponent {
       }
       )
   }
-}
+
+  createConsultation() {
+    this.patientService.createConsultation(this.consultation)
+    .subscribe(
+      data => {
+        this.router.navigate(['/consultations']);
+      },
+      error => {
+        this.alertService.error(error);
+      }
+      )
+  }}

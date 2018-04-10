@@ -14,3 +14,9 @@
         </select>
     </div>
 </div>
+<tr *ngFor="let patient of patients">
+    <td>{{patient.firstName}}</td>
+    <td>{{patient.lastName}}</td>
+    <td>{{patient.condition}}</td> 
+    <button (click) = "deletePatient(patient.id)">Delete</button>
+</tr>

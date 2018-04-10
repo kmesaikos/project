@@ -1,6 +1,6 @@
 import { Condition } from './condition';
 
-export const conditions: Array<Condition> = [
+export const Conditions: Array<Condition> = [
     {
         text: 'Breast Cancer',
         type: 'breastcancer'

@@ -1,3 +1,4 @@
+import { ConsultationService } from './services/consultation.service';
 import { ConsultationPageComponent } from './consultation/consultation-page.component';
 import { fakeBackendProvider } from './helpers/fake.backend';
 import { MockBackend } from '@angular/http/testing';
@@ -27,7 +28,8 @@ import { FormsModule, ReactiveFormsModule  }   from '@angular/forms';
     AlertService,
     fakeBackendProvider,
     MockBackend,
-    BaseRequestOptions
+    BaseRequestOptions,
+    ConsultationService
   ],
 
   declarations: [

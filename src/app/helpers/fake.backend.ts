@@ -4,14 +4,16 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOptions, realBackend: XHRBackend) {
     // array in local storage for registered patients
     let patients: any[] = JSON.parse(localStorage.getItem('patients')) || [];
+    let consultations: any[] = JSON.parse(localStorage.getItem('consultations')) || [];
+    
 
     // configure fake backend
     backend.connections.subscribe((connection: MockConnection) => {
         // wrap in timeout to simulate server api call
         setTimeout(() => {
 
-               // create patient
-               if (connection.request.url.endsWith('/api/patients') && connection.request.method === RequestMethod.Post) {
+            // create patient
+            if (connection.request.url.endsWith('/api/patients') && connection.request.method === RequestMethod.Post) {
                 // get new user object from post body
                 let newPatient = JSON.parse(connection.request.getBody());
 
@@ -21,7 +23,7 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
                     return connection.mockError(new Error('firstName "' + newPatient.firstName + '" already exists'));
                 }
 
-                // save new user
+                // save new patient
                 newPatient.id = patients.length + 1;
                 patients.push(newPatient);
                 localStorage.setItem('patients', JSON.stringify(patients));
@@ -32,28 +34,61 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
                 return;
             }
 
-            // get users
-            if (connection.request.url.endsWith('/api/patients') && connection.request.method === RequestMethod.Get) {
-                // check for fake auth token in header and return users if valid, this security is implemented server side in a real application
-                    connection.mockRespond(new Response(new ResponseOptions({ status: 200, body: patients })));
-              
+              // create consultation
+              if (connection.request.url.endsWith('/api/consultations') && connection.request.method === RequestMethod.Post) {
+                // get new user object from post body
+                let newConsultation = JSON.parse(connection.request.getBody());
+                // save new consultation
+                newConsultation.id = consultations.length + 1;
+                consultations.push(newConsultation);
+                localStorage.setItem('consultations', JSON.stringify(consultations));
+                // respond 200 OK
+                connection.mockRespond(new Response(new ResponseOptions({ status: 200 })));
                 return;
             }
-            if (connection.request.url.match(/\/api\/patients\/\d+$/) && connection.request.method === RequestMethod.Delete){
+
+            // get patients
+            if (connection.request.url.endsWith('/api/patients') && connection.request.method === RequestMethod.Get) {
+                // check for fake auth token in header and return users if valid, this security is implemented server side in a real application
+                connection.mockRespond(new Response(new ResponseOptions({ status: 200, body: patients })));
+
+                return;
+            }
+
+            if (connection.request.url.endsWith('/api/consultations') && connection.request.method === RequestMethod.Get) {
+                connection.mockRespond(new Response(new ResponseOptions({ status: 200, body: consultations })));
+            }
+
+            //delete patient
+            if (connection.request.url.match(/\/api\/patients\/\d+$/) && connection.request.method === RequestMethod.Delete) {
                 let urlParts = connection.request.url.split('/');
-                let id = parseInt(urlParts[urlParts.length -1]);
-                for(let i=0; i<patients.length; i++){
+                let id = parseInt(urlParts[urlParts.length - 1]);
+                for (let i = 0; i < patients.length; i++) {
                     let patient = patients[i];
-                    if(patient.id === id){
-                        patients.splice(i,1);
+                    if (patient.id === id) {
+                        patients.splice(i, 1);
                         localStorage.setItem('patients', JSON.stringify(patients));
                         break;
                     }
                 }
 
-                connection.mockRespond(new Response(new ResponseOptions({status: 200})));
+                connection.mockRespond(new Response(new ResponseOptions({ status: 200 })));
             }
 
+            // get user by id
+            if (connection.request.url.match(/\/api\/patients\/\d+$/) && connection.request.method === RequestMethod.Get) {
+                // find user by id in users array
+                let urlParts = connection.request.url.split('/');
+                let id = parseInt(urlParts[urlParts.length - 1]);
+                let matchedPatients = patients.filter(patient => { return patient.id === id; });
+                let patient = matchedPatients.length ? matchedPatients[0] : null;
+
+                // respond 200 OK with user
+                connection.mockRespond(new Response(new ResponseOptions({ status: 200, body: patient })));
+                // return 401 not authorised if token is null or invalid
+
+                return;
+            }
 
             // //pass through any requests not handled above
             // let realHttp = new Http(realBackend, options);
