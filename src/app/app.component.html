@@ -7,8 +7,6 @@
         <a routerLink="/consultations" routerLinkActive="active">Consultations</a>
     </li>
     <br />
-    
     <router-outlet></router-outlet>
     <div style="color:red" *ngIf="message" [ngClass]="{ 'alert': message, 'alert-success': message.type === 'success', 'alert-danger': message.type === 'error' }">{{message.text}}</div>
-    
 </div>

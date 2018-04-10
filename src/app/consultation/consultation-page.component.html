@@ -1,22 +1,20 @@
 <h2>Consultations</h2>
 
-<div class="date-picker">
-    <label for="select-date">Choose an available date</label>
-    <div>
-        <select id="select-date" 
-                name="select-date" 
-                required 
-                [(ngModel)]="selectedDate">
-            <option *ngFor="let date of dates" 
-                    [value]="date">
-                {{date}}
-            </option>
-        </select>
-    </div>
-</div>
-<tr *ngFor="let patient of patients">
-    <td>{{patient.firstName}}</td>
-    <td>{{patient.lastName}}</td>
-    <td>{{patient.condition}}</td> 
-    <button (click) = "deletePatient(patient.id)">Delete</button>
+<table>
+    <thead>
+        <tr>
+            <th style="width: 15%">PatientID</th>
+            <th style="width: 15%">DoctorID</th>
+            <th style="width: 15%">RoomID</th>
+            <th style="width: 15%">Registration Date</th>
+            <th style="width: 15%">Consultation Date</th>
+        </tr>
+    </thead>
+<tbody>
+<tr *ngFor="let consultation of consultations">
+    <td>{{consultation.type}}</td>
+<!--     <td>{{patient.lastName}}</td>
+    <td>{{patient.condition}}</td>  -->
 </tr>
+</tbody>
+</table>

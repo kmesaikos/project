@@ -15,18 +15,20 @@ import { Patient } from "../models/patient.model";
 @Injectable()
 export class RegisterPatientComponent {
   patient: any = {};
+  condition: any = {};
   consultation: any = {};
   loading = false;
   @Output() submitPatient = new EventEmitter<Patient>();
+  @Output() submitCondition = new EventEmitter<Condition>();
 
   conditions: Array<Condition> = [
     {
-      text: 'Breast Cancer',
-      type: 'breastcancer'
+      text: 'Happyness',
+      type: 'crazy'
     },
     {
-      text: 'Head & Neck Cancer',
-      type: 'headandneckcancer'
+      text: 'madness',
+      type: 'mad'
     },
     {
       text: 'Flu',
@@ -40,16 +42,17 @@ export class RegisterPatientComponent {
   ) { }
 
   ngOninit() {
-    this.createConsultation();
   }
-  
+
   registerPatient() {
     this.loading = true;
     this.submitPatient.emit(this.patient);
+    this.submitCondition.emit(this.condition);
 
     this.patientService.create(this.patient)
-      .subscribe(
-      data => {
+      .subscribe(data => {
+        console.log(data);
+        
         this.alertService.success('Registration Successful!!', true);
         this.router.navigate(['/patients']);
       },
@@ -58,16 +61,13 @@ export class RegisterPatientComponent {
         this.loading = false;
       }
       )
-  }
-
-  createConsultation() {
-    this.patientService.createConsultation(this.consultation)
-    .subscribe(
-      data => {
+    this.patientService.createConsultation(this.condition)
+      .subscribe(data => {
+        console.log(data);
         this.router.navigate(['/consultations']);
       },
-      error => {
-        this.alertService.error(error);
-      }
-      )
-  }}
+    error => {
+      this.alertService.error(error);
+    });
+  }
+}

@@ -38,6 +38,7 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
               if (connection.request.url.endsWith('/api/consultations') && connection.request.method === RequestMethod.Post) {
                 // get new user object from post body
                 let newConsultation = JSON.parse(connection.request.getBody());
+                console.log(newConsultation);
                 // save new consultation
                 newConsultation.id = consultations.length + 1;
                 consultations.push(newConsultation);
