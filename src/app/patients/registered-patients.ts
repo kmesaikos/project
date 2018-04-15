@@ -22,12 +22,12 @@ export class RegisteredPatients {
     }
 
     deletePatient(id: number) {
-        this.patientService.deletePatient(id).subscribe(() => { this.loadAllPatients() });
+        this.patientService.delete(id).subscribe(() => { this.loadAllPatients() });
 
     }
 
     private loadAllPatients() {
-        this.patientService.getAllPatients().subscribe(patients => { this.patients = patients; });
+        this.patientService.getAll().subscribe(patients => { this.patients = patients; });
     }
 }
 

@@ -15,11 +15,10 @@ import { Patient } from "../models/patient.model";
 @Injectable()
 export class RegisterPatientComponent {
   patient: any = {};
-  condition: any = {};
   consultation: any = {};
+  condition: any = {};
   loading = false;
   @Output() submitPatient = new EventEmitter<Patient>();
-  @Output() submitCondition = new EventEmitter<Condition>();
 
   conditions: Array<Condition> = [
     {
@@ -35,6 +34,7 @@ export class RegisterPatientComponent {
       type: 'flu'
     }
   ];
+
   constructor(
     private patientService: PatientService,
     private router: Router,
@@ -47,7 +47,6 @@ export class RegisterPatientComponent {
   registerPatient() {
     this.loading = true;
     this.submitPatient.emit(this.patient);
-    this.submitCondition.emit(this.condition);
 
     this.patientService.create(this.patient)
       .subscribe(data => {
@@ -61,13 +60,5 @@ export class RegisterPatientComponent {
         this.loading = false;
       }
       )
-    this.patientService.createConsultation(this.condition)
-      .subscribe(data => {
-        console.log(data);
-        this.router.navigate(['/consultations']);
-      },
-    error => {
-      this.alertService.error(error);
-    });
   }
 }
